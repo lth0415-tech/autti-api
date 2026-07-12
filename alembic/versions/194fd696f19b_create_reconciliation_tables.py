@@ -33,11 +33,7 @@ def upgrade() -> None:
         sa.Column("created_at", sa.DateTime(), nullable=False),
         sa.Column("updated_at", sa.DateTime(), nullable=True),
     )
-    op.create_index(
-        "ix_reconciliation_batches_id",
-        "reconciliation_batches",
-        ["id"],
-    )
+    
 
     op.create_table(
         "reconciliation_results",
@@ -62,11 +58,7 @@ def upgrade() -> None:
             ["reconciliation_batches.id"],
         ),
     )
-    op.create_index(
-        "ix_reconciliation_results_id",
-        "reconciliation_results",
-        ["id"],
-    )
+    
     op.create_index(
         "ix_reconciliation_results_batch_id",
         "reconciliation_results",
@@ -79,14 +71,5 @@ def downgrade() -> None:
         "ix_reconciliation_results_batch_id",
         table_name="reconciliation_results",
     )
-    op.drop_index(
-        "ix_reconciliation_results_id",
-        table_name="reconciliation_results",
-    )
     op.drop_table("reconciliation_results")
-
-    op.drop_index(
-        "ix_reconciliation_batches_id",
-        table_name="reconciliation_batches",
-    )
     op.drop_table("reconciliation_batches")
