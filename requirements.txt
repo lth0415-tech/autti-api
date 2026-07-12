@@ -6,6 +6,4 @@ sqlalchemy
 psycopg[binary]
 pydantic-settings
 openpyxl
-pytest
-httpx
 alembic
