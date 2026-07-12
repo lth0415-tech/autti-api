@@ -90,6 +90,8 @@ tests/
 ## 계층구조
 
 Autti는 Java Spring Boot의 Controller-Service-Repository 구조와 비슷하게 구성되어 있습니다.
+
+
 Router
   HTTP 요청/응답 처리
 
@@ -148,9 +150,12 @@ pytest
 대사 로직 단위 테스트/
 Excel 업로드 API 테스트/
 결과 Excel 다운로드 테스트/
-필수 컬럼 누락 검증 테스트/
+필수 컬럼 누락 검증 테스트
+
 현재 구현 범위
 현재 MVP에서는 Excel 기반 대사 자동화를 구현했습니다.
+
+
 Excel 업로드
 >
 필수 컬럼 검증
