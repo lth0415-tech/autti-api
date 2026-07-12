@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>Autti</title>
+</head>
+<body>
+    <h1>Autti</h1>
+    <p>금융기관조회서와 회사 명세서를 업로드해서 대사 결과를 확인합니다.</p>
+
+    <form id="reconciliationForm">
+        <div>
+            <label>금융기관조회서 Excel</label><br />
+            <input type="file" id="confirmationFile" name="confirmation_file" accept=".xlsx" required />
+        </div>
+
+        <br />
+
+        <div>
+            <label>회사 명세서 Excel</label><br />
+            <input type="file" id="statementFile" name="statement_file" accept=".xlsx" required />
+        </div>
+
+        <br />
+
+        <button type="submit">대사 실행</button>
+    </form>
+
+    <hr />
+
+    <h2>결과</h2>
+    <pre id="result">아직 실행 전입니다.</pre>
+
+    <a id="downloadLink" href="#" style="display: none;">
+    결과 Excel 다운로드
+    </a>
+    <script>
+        const form = document.getElementById("reconciliationForm");
+        const resultBox = document.getElementById("result");
+        const downloadLink = document.getElementById("downloadLink");
+
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+            formData.append("confirmation_file", document.getElementById("confirmationFile").files[0]);
+            formData.append("statement_file", document.getElementById("statementFile").files[0]);
+
+            resultBox.textContent = "대사 실행 중...";
+            downloadLink.style.display = "none";
+            downloadLink.href = "#";
+
+            const response = await fetch("/api/v1/reconciliations", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!response.ok) {
+                resultBox.textContent = "오류가 발생했습니다.";
+                return;
+            }
+
+            const data = await response.json();
+
+            resultBox.textContent = JSON.stringify(data, null, 2);
+
+            if (data.batch_id) {
+                downloadLink.href = `/api/v1/reconciliations/${data.batch_id}/download`;
+                downloadLink.style.display = "inline-block";
+            }
+        });
+    </script>
+</body>
+</html>
