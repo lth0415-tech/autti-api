@@ -1,0 +1,27 @@
+services:
+  web:
+    build: .
+    container_name: autti-web
+    ports:
+      - "8000:8000"
+    environment:
+      APP_NAME: Autti
+      ENV: docker
+      DATABASE_URL: postgresql+psycopg://autti_user:autti_password@db:5432/autti
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    container_name: autti-db
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: autti
+      POSTGRES_USER: autti_user
+      POSTGRES_PASSWORD: autti_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
