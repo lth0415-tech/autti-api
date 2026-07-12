@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+python-multipart
+jinja2
+sqlalchemy
+psycopg[binary]
+pydantic-settings
+openpyxl
+pytest
+httpx
+alembic
